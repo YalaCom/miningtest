@@ -70,9 +70,9 @@ else
 end
   
 local themes = {
-    {name='ГѓГ°Г ГґГЁГІ', bg='18191b', panel='222427', frame='33363a', hover='554334', ink='f8f3ed', quiet='beb8ae', accent='efac76'},
-    {name='Г”Г Г°ГґГ®Г°', bg='e9e8e3', panel='faf9f6', frame='dcdedc', hover='c4d0dd', ink='18232d', quiet='485664', accent='27569a'},
-    {name='ГЌГҐГґГ°ГЁГІ', bg='101e1a', panel='172a23', frame='233e32', hover='355543', ink='eff8ef', quiet='a8c3b1', accent='91d9af'}
+    {name='Графит', bg='18191b', panel='222427', frame='33363a', hover='554334', ink='f8f3ed', quiet='beb8ae', accent='efac76'},
+    {name='Фарфор', bg='e9e8e3', panel='faf9f6', frame='dcdedc', hover='c4d0dd', ink='18232d', quiet='485664', accent='27569a'},
+    {name='Нефрит', bg='101e1a', panel='172a23', frame='233e32', hover='355543', ink='eff8ef', quiet='a8c3b1', accent='91d9af'}
 }
 local function color(hex)
     return imgui.ImVec4(tonumber(hex:sub(1,2),16)/255, tonumber(hex:sub(3,4),16)/255, tonumber(hex:sub(5,6),16)/255, 1)
@@ -102,51 +102,51 @@ do
         _author = "JustFedot",
         _telegram = "@justfedot",
         _help = [[
-            Jcfg - Г¬Г®Г¤ГіГ«Гј Г¤Г«Гї Г±Г®ГµГ°Г Г­ГҐГ­ГЁГї ГЁ Г§Г ГЈГ°ГіГ§ГЄГЁ ГЄГ®Г­ГґГЁГЈГіГ°Г Г¶ГЁГ®Г­Г­Г»Гµ ГґГ Г©Г«Г®Гў Гў Lua, ГЁГ±ГЇГ®Г«ГјГ§ГіГї ГґГ®Г°Г¬Г ГІ JSON, Г± ГЇГ®Г¤Г¤ГҐГ°Г¦ГЄГ®Г© ГЄГ®Г­ГґГЁГЈГіГ°Г Г¶ГЁГЁ Г¤Г«Гї ImGui.
-            Г‚Г Г¦Г­Г®: Г¬Г®Г¤ГіГ«Гј Г¤Г®Г«Г¦ГҐГ­ ГЎГ»ГІГј ГЇГ®Г¤ГЄГ«ГѕГ·ГҐГ­ ГЇГ®Г±Г«ГҐ ГўГ±ГҐГµ Г­ГҐГ®ГЎГµГ®Г¤ГЁГ¬Г»Гµ `require`.
+            Jcfg - модуль для сохранения и загрузки конфигурационных файлов в Lua, используя формат JSON, с поддержкой конфигурации для ImGui.
+            Важно: модуль должен быть подключен после всех необходимых `require`.
         
-            Г€Г±ГЇГ®Г«ГјГ§Г®ГўГ Г­ГЁГҐ:
-                - Г€Г­ГЁГ¶ГЁГ Г«ГЁГ§Г Г¶ГЁГї Г¬Г®Г¤ГіГ«Гї:
+            Использование:
+                - Инициализация модуля:
                     jcfg = Jcfg()
         
-                - Г‘Г®ГµГ°Г Г­ГҐГ­ГЁГҐ Г¬Г Г±Г±ГЁГўГ  Гў ГґГ Г©Г«:
+                - Сохранение массива в файл:
                     jcfg.save(table, path)
-                    - table: Г¬Г Г±Г±ГЁГў, ГЄГ®ГІГ®Г°Г»Г© Г­ГіГ¦Г­Г® Г±Г®ГµГ°Г Г­ГЁГІГј.
-                    - path: ГЇГіГІГј Г¤Г«Гї Г±Г®ГµГ°Г Г­ГҐГ­ГЁГї. Г…Г±Г«ГЁ Г­ГҐ ГіГЄГ Г§Г Г­, Г±Г®ГµГ°Г Г­ГҐГ­ГЁГҐ ГЎГіГ¤ГҐГІ Гў moonloader/config/Г€Г¬Гї_Г±ГЄГ°ГЁГЇГІГ /config.json
+                    - table: массив, который нужно сохранить.
+                    - path: путь для сохранения. Если не указан, сохранение будет в moonloader/config/Имя_скрипта/config.json
         
-                - Г‡Г ГЈГ°ГіГ§ГЄГ  Г¬Г Г±Г±ГЁГўГ  ГЁГ§ ГґГ Г©Г«Г :
+                - Загрузка массива из файла:
                     table = jcfg.load(path)
-                    - table: ГЇГҐГ°ГҐГ¬ГҐГ­Г­Г Гї, Гў ГЄГ®ГІГ®Г°ГіГѕ ГЎГіГ¤ГҐГІ Г§Г ГЈГ°ГіГ¦ГҐГ­ Г¬Г Г±Г±ГЁГў.
-                    - path: ГЇГіГІГј ГЄ ГґГ Г©Г«Гі Г¤Г«Гї Г§Г ГЈГ°ГіГ§ГЄГЁ. Г…Г±Г«ГЁ Г­ГҐ ГіГЄГ Г§Г Г­, ГЎГіГ¤ГҐГІ ГЁГ±ГЄГ ГІГј Гў moonloader/config/Г€Г¬Гї_Г±ГЄГ°ГЁГЇГІГ /config.json
+                    - table: переменная, в которую будет загружен массив.
+                    - path: путь к файлу для загрузки. Если не указан, будет искать в moonloader/config/Имя_скрипта/config.json
         
-                - ГЋГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ Г¬Г Г±Г±ГЁГўГ  Г¤Г Г­Г­Г»Г¬ГЁ ГЁГ§ ГґГ Г©Г«Г :
+                - Обновление массива данными из файла:
                     jcfg.update(table, path)
-                    - table: Г¬Г Г±Г±ГЁГў, ГЄГ®ГІГ®Г°Г»Г© Г­ГіГ¦Г­Г® Г®ГЎГ­Г®ГўГЁГІГј Г¤Г Г­Г­Г»Г¬ГЁ ГЁГ§ ГґГ Г©Г«Г .
-                    - path: ГЇГіГІГј ГЄ ГґГ Г©Г«Гі Г¤Г«Гї Г§Г ГЈГ°ГіГ§ГЄГЁ. Г…Г±Г«ГЁ Г­ГҐ ГіГЄГ Г§Г Г­, ГЎГіГ¤ГҐГІ ГЁГ±ГЄГ ГІГј Гў moonloader/config/Г€Г¬Гї_Г±ГЄГ°ГЁГЇГІГ /config.json
+                    - table: массив, который нужно обновить данными из файла.
+                    - path: путь к файлу для загрузки. Если не указан, будет искать в moonloader/config/Имя_скрипта/config.json
         
-                - ГЌГ Г±ГІГ°Г®Г©ГЄГ  Г¬Г Г±Г±ГЁГўГ  Г¤Г«Гї ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ Г­ГЁГї Г± ImGui:
+                - Настройка массива для использования с ImGui:
                     imtable = jcfg.setupImgui(table)
-                    - table: Г¬Г Г±Г±ГЁГў, ГЄГ®ГІГ®Г°Г»Г© ГЎГіГ¤ГҐГІ ГЇГ°ГҐГ®ГЎГ°Г Г§Г®ГўГ Г­ Г¤Г«Гї ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ Г­ГЁГї Г± ImGui.
-                    - imtable: ГўГ®Г§ГўГ°Г Г№Г ГҐГІ Г¬Г Г±Г±ГЁГў, ГЈГ®ГІГ®ГўГ»Г© ГЄ ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ Г­ГЁГѕ Г± ImGui.
+                    - table: массив, который будет преобразован для использования с ImGui.
+                    - imtable: возвращает массив, готовый к использованию с ImGui.
         
-            ГЏГ°ГЁГ¬ГҐГ° ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ Г­ГЁГї:
+            Пример использования:
         
-                -- Г€Г­ГЁГ¶ГЁГ Г«ГЁГ§Г Г¶ГЁГї Г¬Г®Г¤ГіГ«Гї
+                -- Инициализация модуля
                 local jcfg = Jcfg()
         
-                -- Г‘Г®Г§Г¤Г Г­ГЁГҐ ГЄГ®Г­ГґГЁГЈГіГ°Г Г¶ГЁГЁ
+                -- Создание конфигурации
                 local cfg = {
                     params = {'123'},
                     param = 12
                 }
         
-                -- ГЋГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ ГЄГ®Г­ГґГЁГЈГіГ°Г Г¶ГЁГЁ Г¤Г Г­Г­Г»Г¬ГЁ ГЁГ§ ГґГ Г©Г«Г  (ГҐГ±Г«ГЁ ГґГ Г©Г« Г±ГіГ№ГҐГ±ГІГўГіГҐГІ)
+                -- Обновление конфигурации данными из файла (если файл существует)
                 jcfg.update(cfg)
         
-                -- ГЌГ Г±ГІГ°Г®Г©ГЄГ  ГЄГ®Г­ГґГЁГЈГіГ°Г Г¶ГЁГЁ Г¤Г«Гї ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ Г­ГЁГї Г± ImGui
+                -- Настройка конфигурации для использования с ImGui
                 local imcfg = jcfg.setupImgui(cfg)
         
-                -- Г‘Г®ГµГ°Г Г­ГҐГ­ГЁГҐ ГЄГ®Г­ГґГЁГЈГіГ°Г Г¶ГЁГЁ Гў ГґГ Г©Г«
+                -- Сохранение конфигурации в файл
                 jcfg.save(cfg)
         ]]                      
     }
@@ -321,28 +321,28 @@ local utils = (function()
 
     function self.getVideocardEarnings(level)
         -- local earningsTable = {
-        --     0.0327855,  -- 1 Г«ГўГ«
-        --     0.06557125, -- 2 Г«ГўГ«
-        --     0.09835675, -- 3 Г«ГўГ«
-        --     0.13114275, -- 4 Г«ГўГ«
-        --     0.1639285,  -- 5 Г«ГўГ«
-        --     0.19671425, -- 6 Г«ГўГ«
-        --     0.22949975, -- 7 Г«ГўГ«
-        --     0.2622855,  -- 8 Г«ГўГ«
-        --     0.2950715,  -- 9 Г«ГўГ«
-        --     0.327857    -- 10 Г«ГўГ«
+        --     0.0327855,  -- 1 лвл
+        --     0.06557125, -- 2 лвл
+        --     0.09835675, -- 3 лвл
+        --     0.13114275, -- 4 лвл
+        --     0.1639285,  -- 5 лвл
+        --     0.19671425, -- 6 лвл
+        --     0.22949975, -- 7 лвл
+        --     0.2622855,  -- 8 лвл
+        --     0.2950715,  -- 9 лвл
+        --     0.327857    -- 10 лвл
         -- }
         local earningsTable = {
-            0.021858,  -- 1 Г«ГўГ«
-            0.043716, -- 2 Г«ГўГ«
-            0.065568, -- 3 Г«ГўГ«
-            0.087432, -- 4 Г«ГўГ«
-            0.109284,  -- 5 Г«ГўГ«
-            0.131142, -- 6 Г«ГўГ«
-            0.153, -- 7 Г«ГўГ«
-            0.174858,  -- 8 Г«ГўГ«
-            0.196716,  -- 9 Г«ГўГ«
-            0.218568    -- 10 Г«ГўГ«
+            0.021858,  -- 1 лвл
+            0.043716, -- 2 лвл
+            0.065568, -- 3 лвл
+            0.087432, -- 4 лвл
+            0.109284,  -- 5 лвл
+            0.131142, -- 6 лвл
+            0.153, -- 7 лвл
+            0.174858,  -- 8 лвл
+            0.196716,  -- 9 лвл
+            0.218568    -- 10 лвл
         }
 
         local mult = cfg.multiply == 1 and 1 or cfg.multiply == 2 and 1.5 or cfg.multiply == 3 and 2
@@ -385,16 +385,16 @@ function main()
 
     local ok, registered = pcall(sampRegisterChatCommand, 'jmnt', function()
         cfg.on = not cfg.on
-        local text = cfg.on and "Г‘ГЄГ°ГЁГЇГІ {99ff99}ГўГЄГ«ГѕГ·ГҐГ­{ffffff}." or "Г‘ГЄГ°ГЁГЇГІ {ff0000}Г®ГІГЄГ«ГѕГ·ГҐГ­{ffffff}."
+        local text = cfg.on and "Скрипт {99ff99}включен{ffffff}." or "Скрипт {ff0000}отключен{ffffff}."
         utils.addChat(text)
         save()
     end)
     if not ok or registered == false then
-        utils.addChat('{ff9999}ГЌГҐ Г§Г ГЈГ°ГіГ¦ГҐГ­: ГЄГ®Г¬Г Г­Г¤Г  /jmnt Г­ГҐГ¤Г®Г±ГІГіГЇГ­Г . @exquown')
+        utils.addChat('{ff9999}Не загружен: команда /jmnt недоступна. @exquown')
         print(tostring(registered))
         return
     end
-    utils.addChat('{99ff99}Г‡Г ГЈГ°ГіГ¦ГҐГ­{ffffff} | @exquown | /jmnt'..(cfg.on and '' or ' | Г®ГЎГ°Г ГЎГ®ГІГЄГ  Г®ГІГЄГ«ГѕГ·ГҐГ­Г '))
+    utils.addChat('{99ff99}Загружен{ffffff} | @exquown | /jmnt'..(cfg.on and '' or ' | обработка отключена'))
     
 
     while true do wait(0)
@@ -435,13 +435,13 @@ local workLauncher = (function()
     local checkers = {
         [1] = function(v) -- checkVideocardStatus
             if work.mode == 3 then
-                if v[2]:find("{F78181}ГЌГ  ГЇГ ГіГ§ГҐ") and tonumber(v[2]:match("(%d+%.%d+)%%?%s*$")) > 0 then
+                if v[2]:find("{F78181}На паузе") and tonumber(v[2]:match("(%d+%.%d+)%%?%s*$")) > 0 then
                     return true
                 else
                     return false
                 end
             else
-                return v[2]:find("{BEF781}ГђГ ГЎГ®ГІГ ГҐГІ") and true or false
+                return v[2]:find("{BEF781}Работает") and true or false
             end
         end,
         
@@ -477,7 +477,7 @@ local workLauncher = (function()
 end)()
 
 local tab, art, changed = 1, nil, 0
-local tabs = {'ГЋГЎГ§Г®Г°','Г„ГҐГ©Г±ГІГўГЁГї','ГЌГ Г±ГІГ°Г®Г©ГЄГЁ'}
+local tabs = {'Обзор','Действия','Настройки'}
 local vec = imgui.ImVec2
 local function banner(t)
     local width = imgui.GetContentRegionAvail().x
@@ -521,7 +521,7 @@ function imgui.OnDrawFrame()
     imgui.TextUnformatted('MiningMAX')
     imgui.SetWindowFontScale(1)
     imgui.SameLine()
-    if imgui.Link('@exquown',u8'ГЋГІГЄГ°Г»ГІГј Telegram') then os.execute('explorer.exe "https://t.me/exquown"') end
+    if imgui.Link('@exquown',u8'Открыть Telegram') then os.execute('explorer.exe "https://t.me/exquown"') end
     imgui.SameLine()
     imgui.SetCursorPosX(width-50)
     if imgui.Button('X##close',vec(34,24)) and not work.on then __closeWindow(true) end
@@ -535,11 +535,11 @@ function imgui.OnDrawFrame()
     imgui.BeginChild('##list',vec(0,-38),false)
     for i,v in ipairs(cards) do
         local line = v[2]:gsub('{%x%x%x%x%x%x}','')
-        local level = tonumber(line:match('(%d+) ГіГ°Г®ГўГҐГ­Гј'))
+        local level = tonumber(line:match('(%d+) уровень'))
         local coolant = tonumber(line:match('(%d+%.%d+)%%'))
         local amount,coin = line:match('(%d+%.%d+)%s+([AB][ST][CC])')
         local rate = utils.getVideocardEarnings(level)
-        local paused = line:find('ГЌГ  ГЇГ ГіГ§ГҐ',1,true)
+        local paused = line:find('На паузе',1,true)
         attention = attention or paused or (coolant and coolant <= cfg.coolantPercents)
         if coolant then minimum = math.min(minimum or coolant,coolant) end
         if coin and hourly[coin] then
@@ -554,22 +554,22 @@ function imgui.OnDrawFrame()
                 sampSendDialogResponsed(__imDialogData.id,1,v[1])
                 imgui_windows.dialog.v = false
             end
-            imgui.SetTooltip(u8(line..'\nГ‚ Г·Г Г±: '..rate..' '..(coin or '')..'   Г‚ Г±ГіГІГЄГЁ: '..(rate*24)..' '..(coin or '')..
-                (coolant and '\nГЏГ°Г®Г°Г ГЎГ®ГІГ ГҐГІ: ~'..math.floor(utils.calculateRemainingHours(coolant))..' Г·.' or '')))
+            imgui.SetTooltip(u8(line..'\nВ час: '..rate..' '..(coin or '')..'   В сутки: '..(rate*24)..' '..(coin or '')..
+                (coolant and '\nПроработает: ~'..math.floor(utils.calculateRemainingHours(coolant))..' ч.' or '')))
         end
         local draw = imgui.GetWindowDrawList()
-        draw:AddText(vec(pos.x+8,pos.y+3),imgui.GetColorU32(t.inkColor),u8('Г‚ГЁГ¤ГҐГ®ГЄГ Г°ГІГ  В№'..i..'   '..(paused and 'ГЌГ  ГЇГ ГіГ§ГҐ' or 'ГђГ ГЎГ®ГІГ ГҐГІ')))
-        draw:AddText(vec(pos.x+8,pos.y+24),imgui.GetColorU32(t.quietColor),u8((amount or '-')..' '..(coin or '')..'   |   ГіГ°. '..(level or '-')..'   |   '..(coolant or '-')..'%'))
+        draw:AddText(vec(pos.x+8,pos.y+3),imgui.GetColorU32(t.inkColor),u8('Видеокарта №'..i..'   '..(paused and 'На паузе' or 'Работает')))
+        draw:AddText(vec(pos.x+8,pos.y+24),imgui.GetColorU32(t.quietColor),u8((amount or '-')..' '..(coin or '')..'   |   ур. '..(level or '-')..'   |   '..(coolant or '-')..'%'))
         if selected then draw:AddLine(vec(pos.x+1,pos.y+4),vec(pos.x+1,pos.y+41),imgui.GetColorU32(t.accentColor),2) end
     end
     imgui.EndChild()
     local half = (imgui.GetContentRegionAvail().x-8)/2
-    if imgui.Button(u8'Г‚Г»ГЎГ°Г ГІГј',vec(half,31)) and not work.on and #cards>0 then
+    if imgui.Button(u8'Выбрать',vec(half,31)) and not work.on and #cards>0 then
         sampSendDialogResponsed(__imDialogData.id,1,__imDialogData.selectedVideocard)
         imgui_windows.dialog.v=false
     end
     imgui.SameLine()
-    if imgui.Button(u8'Г‡Г ГЄГ°Г»ГІГј',vec(half,31)) and not work.on then __closeWindow(true) end
+    if imgui.Button(u8'Закрыть',vec(half,31)) and not work.on then __closeWindow(true) end
     imgui.EndChild()
     imgui.SameLine()
     imgui.BeginChild('##details',vec(0,0),true)
@@ -583,50 +583,50 @@ function imgui.OnDrawFrame()
     end
     imgui.Separator()
     if work.on then
-        imgui.MihailKrug(({'Г‡Г ГЎГЁГ°Г Гѕ ГЇГ°ГЁГЎГ»Г«Гј...','Г‡Г ГЇГ°Г ГўГ«ГїГѕ...','Г‚ГЄГ«ГѕГ·Г Гѕ ГЄГ Г°ГІГ»...','Г‚Г»ГЄГ«ГѕГ·Г Гѕ ГЄГ Г°ГІГ»...'})[work.mode])
+        imgui.MihailKrug(({'Забираю прибыль...','Заправляю...','Включаю карты...','Выключаю карты...'})[work.mode])
     elseif tab==1 then
-        imgui.TextColored(t.accentColor,u8(attention and 'Г’Г°ГҐГЎГіГҐГІ ГўГ­ГЁГ¬Г Г­ГЁГї' or 'Г‚Г±Вё Гў ГЇГ®Г°ГїГ¤ГЄГҐ'))
-        local capacity = __imDialogData.title:find('Г¤Г®Г¬') and 20 or 4
-        metric('Г‚ГЁГ¤ГҐГ®ГЄГ Г°ГІГ»',#cards..' / '..capacity,t)
-        metric('Г„Г® Г§Г ГЇГ°Г ГўГЄГЁ',minimum and ('~'..math.floor(utils.calculateRemainingHours(minimum))..' Г·.') or '-',t)
+        imgui.TextColored(t.accentColor,u8(attention and 'Требует внимания' or 'Всё в порядке'))
+        local capacity = __imDialogData.title:find('дом') and 20 or 4
+        metric('Видеокарты',#cards..' / '..capacity,t)
+        metric('До заправки',minimum and ('~'..math.floor(utils.calculateRemainingHours(minimum))..' ч.') or '-',t)
         imgui.Separator()
         for _,coin in ipairs({'BTC','ASC'}) do
             imgui.SetWindowFontScale(1.25)
             imgui.TextColored(t.accentColor,coin)
             imgui.SetWindowFontScale(1)
-            metric('Г‚ Г·Г Г±',string.format('%.3f',hourly[coin]),t)
-            metric('Г‚ Г±ГіГІГЄГЁ',string.format('%.3f',hourly[coin]*24),t)
-            metric('ГЊГ®Г¦Г­Г® Г±Г­ГїГІГј',tostring(available[coin]),t)
+            metric('В час',string.format('%.3f',hourly[coin]),t)
+            metric('В сутки',string.format('%.3f',hourly[coin]*24),t)
+            metric('Можно снять',tostring(available[coin]),t)
             imgui.Separator()
         end
-        imgui.TextUnformatted(u8'ГЊГ­Г®Г¦ГЁГІГҐГ«Гј Г¤Г®ГµГ®Г¤Г­Г®Г±ГІГЁ')
+        imgui.TextUnformatted(u8'Множитель доходности')
         for i,name in ipairs({'x1','x1.5','x2'}) do
             if i>1 then imgui.SameLine() end
             if imgui.RadioButton(name,imcfg.multiply,i) then cfg.multiply=i save() end
         end
     elseif tab==2 then
         local function action(label) return imgui.Button(u8(label),vec(imgui.GetContentRegionAvail().x,33)) end
-        imgui.TextColored(t.quietColor,u8'Г’ГҐГЄГіГ№Г Гї ГґГҐГ°Г¬Г ')
-        if action('Г‚ГЄГ«ГѕГ·ГЁГІГј ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГ»') then workLauncher.handleVideocardAction(3,1,'Г‚Г±ГҐ ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГ» ГўГЄГ«ГѕГ·ГҐГ­Г», ГЁГ«ГЁ Гў ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГ Гµ Г­ГҐГІ Г®ГµГ«. Г¦ГЁГ¤ГЄГ®Г±ГІГЁ.') end
-        if action('Г‚Г»ГЄГ«ГѕГ·ГЁГІГј ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГ»') then workLauncher.handleVideocardAction(4,1,'Г‚Г±ГҐ ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГ» ГўГ»ГЄГ«ГѕГ·ГҐГ­Г».') end
-        if action('Г‡Г ГЎГ°Г ГІГј ГЇГ°ГЁГЎГ»Г«Гј') then workLauncher.handleVideocardAction(1,2,'ГЌГҐГ·ГҐГЈГ® Г§Г ГЎГЁГ°Г ГІГј.') end
-        if imgui.ButtonClickable("ГЌГҐГ¤Г®Г±ГІГіГЇГ­Г® Г·ГҐГ°ГҐГ§ ГґГ«ГЅГёГЄГі Г¬Г Г©Г­ГҐГ°Г ",not __imDialogData.title:find('Г¤Г®Г¬'),u8'Г‡Г ГЇГ°Г ГўГЁГІГј Г®ГµГ«Г Г¦Г¤Г ГѕГ№ГіГѕ Г¦ГЁГ¤ГЄГ®Г±ГІГј',vec(imgui.GetContentRegionAvail().x,33)) then
-            workLauncher.handleVideocardAction(2,3,'ГЋГµГ«Г Г¦Г¤ГҐГ­ГЁГҐ Г­ГҐ ГІГ°ГҐГЎГіГҐГІГ±Гї.')
+        imgui.TextColored(t.quietColor,u8'Текущая ферма')
+        if action('Включить видеокарты') then workLauncher.handleVideocardAction(3,1,'Все видеокарты включены, или в видеокартах нет охл. жидкости.') end
+        if action('Выключить видеокарты') then workLauncher.handleVideocardAction(4,1,'Все видеокарты выключены.') end
+        if action('Забрать прибыль') then workLauncher.handleVideocardAction(1,2,'Нечего забирать.') end
+        if imgui.ButtonClickable("Недоступно через флэшку майнера",not __imDialogData.title:find('дом'),u8'Заправить охлаждающую жидкость',vec(imgui.GetContentRegionAvail().x,33)) then
+            workLauncher.handleVideocardAction(2,3,'Охлаждение не требуется.')
         end
         imgui.Separator()
-        imgui.TextColored(t.quietColor,u8'Г‚Г±ГҐ Г¤Г®Г¬Г ')
-        for _,entry in ipairs({{3,'Г‡Г ГЇГіГ±ГІГЁГІГј ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГ» ГўГ® ГўГ±ГҐГµ Г¤Г®Г¬Г Гµ'},{1,'Г‘Г®ГЎГ°Г ГІГј ГЇГ°ГЁГЎГ»Г«Гј Г±Г® ГўГ±ГҐГµ Г¤Г®Г¬Г®Гў'}}) do
+        imgui.TextColored(t.quietColor,u8'Все дома')
+        for _,entry in ipairs({{3,'Запустить видеокарты во всех домах'},{1,'Собрать прибыль со всех домов'}}) do
             if action(entry[2]) then
                 allHouses.active,allHouses.mode = true,entry[1]
                 allHouses.currentHouse = getHouseNumber(__imDialogData.title)
                 allHouses.awaitingHouseList,allHouses.visited = false,{}
                 if allHouses.currentHouse then allHouses.visited[allHouses.currentHouse]=true end
                 if entry[1]==1 then cryptoAnalysys.btc,cryptoAnalysys.asc=0,0 end
-                workLauncher.handleVideocardAction(entry[1],entry[1]==1 and 2 or 1,entry[1]==1 and 'ГЌГҐГ·ГҐГЈГ® Г§Г ГЎГЁГ°Г ГІГј.' or 'Г‚Г±ГҐ ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГ» ГўГЄГ«ГѕГ·ГҐГ­Г», ГЁГ«ГЁ Гў ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГ Гµ Г­ГҐГІ Г®ГµГ«. Г¦ГЁГ¤ГЄГ®Г±ГІГЁ.')
+                workLauncher.handleVideocardAction(entry[1],entry[1]==1 and 2 or 1,entry[1]==1 and 'Нечего забирать.' or 'Все видеокарты включены, или в видеокартах нет охл. жидкости.')
             end
         end
     else
-        imgui.TextUnformatted(u8'Г’ГҐГ¬Г  Г®ГґГ®Г°Г¬Г«ГҐГ­ГЁГї')
+        imgui.TextUnformatted(u8'Тема оформления')
         for i,theme in ipairs(themes) do
             if imgui.RadioButton(u8(theme.name),imcfg.theme,i) then
                 cfg.theme=i
@@ -636,7 +636,7 @@ function imgui.OnDrawFrame()
             end
         end
         imgui.Separator()
-        imgui.TextUnformatted(u8'ГЏГ®Г°Г®ГЈ Г¤Г®Г§Г ГЇГ°Г ГўГЄГЁ')
+        imgui.TextUnformatted(u8'Порог дозаправки')
         imgui.PushItemWidth(imgui.GetContentRegionAvail().x)
         if imgui.SliderInt('##coolant',imcfg.coolantPercents,1,99,'%.0f%%') then
             cfg.coolantPercents=imcfg.coolantPercents.v
@@ -678,11 +678,11 @@ function imgui.MihailKrug(text, hint)
     text = u8(text or "Process...")
     hint = hint and u8(hint) or nil
 
-    -- Г‚Г»Г·ГЁГ±Г«ГҐГ­ГЁГҐ Г°Г Г§Г¬ГҐГ°Г®Гў ГІГҐГЄГ±ГІГ  ГЁ Г°Г Г¤ГЁГіГ±Г  ГЄГ°ГіГЈГ 
+    -- Вычисление размеров текста и радиуса круга
     local textSize = imgui.CalcTextSize(text)
     local radius = math.max(textSize.x, textSize.y) * 0.5 + width + 10
 
-    -- Г“Г±ГІГ Г­Г®ГўГЄГ  ГЇГ®Г§ГЁГ¶ГЁГЁ ГЄГіГ°Г±Г®Г°Г  Г¤Г«Гї Г¶ГҐГ­ГІГ°ГЁГ°Г®ГўГ Г­ГЁГї ГЄГ°ГіГЈГ 
+    -- Установка позиции курсора для центрирования круга
     imgui.SetCursorPosX((imgui.GetContentRegionAvail().x - (radius * 2)) / 2)
 
     local drawList = imgui.GetWindowDrawList()
@@ -690,21 +690,21 @@ function imgui.MihailKrug(text, hint)
     local centerX = cursorPos.x + radius
     local centerY = cursorPos.y + radius
 
-    -- ГЏГ Г°Г Г¬ГҐГІГ°Г» Г Г­ГЁГ¬Г Г¶ГЁГЁ
+    -- Параметры анимации
     local segments = 64
     local angle = (1.0 - value) * math.pi
     local animatedAngle = (math.pi * 0.5 + os.clock() * speed) % (math.pi * 2)
     local endAngle = animatedAngle + angle
     local radiusInner = radius - width
 
-    -- ГђГЁГ±Г®ГўГ Г­ГЁГҐ ГЄГ°ГіГЈГ  ГЁ ГЇГ°Г®ГўГҐГ°ГЄГ  Г­Г ГўГҐГ¤ГҐГ­ГЁГї ГЄГіГ°Г±Г®Г°Г 
+    -- Рисование круга и проверка наведения курсора
     imgui.Dummy(imgui.ImVec2(radius * 2, radius * 2))
     if hint and imgui.IsItemHovered() then
         fgColor = imgui.GetColorU32(imgui.ImVec4(imgui.GetStyle().Colors[imgui.Col.ButtonHovered]))
         imgui.SetTooltip(hint)
     end
 
-    -- ГђГЁГ±Г®ГўГ Г­ГЁГҐ Г±ГҐГЈГ¬ГҐГ­ГІГ®Гў ГЄГ°ГіГЈГ 
+    -- Рисование сегментов круга
     if angle > 0 then
         local step = angle / segments
         for i = 0, segments - 1 do
@@ -724,11 +724,11 @@ function imgui.MihailKrug(text, hint)
         end
     end
 
-    -- ГђГЁГ±Г®ГўГ Г­ГЁГҐ ГІГҐГЄГ±ГІГ  Гў Г¶ГҐГ­ГІГ°ГҐ ГЄГ°ГіГЈГ 
+    -- Рисование текста в центре круга
     local textPos = imgui.ImVec2(centerX - textSize.x * 0.5, centerY - textSize.y * 0.5)
     drawList:AddText(textPos, fgColor, text)
 
-    -- ГЏГ°Г®ГўГҐГ°ГЄГ  Г­Г Г¦Г ГІГЁГї Г­Г  ГЅГ«ГҐГ¬ГҐГ­ГІ
+    -- Проверка нажатия на элемент
     if imgui.IsItemHovered() and imgui.IsItemClicked(0) then
         return true
     end
@@ -775,10 +775,10 @@ cryptoAnalysys = {
 
 getHouseNumber = function(text)
     if not text then return nil end
-    return tonumber(text:match("%(Г¤Г®Г¬[^%d]*(%d+)"))
-        or tonumber(text:match("Г„Г®Г¬[^%d]*(%d+)"))
-        or tonumber(text:match("Г¤Г®Г¬[^%d]*(%d+)"))
-        or tonumber(text:match("В№%s*(%d+)"))
+    return tonumber(text:match("%(дом[^%d]*(%d+)"))
+        or tonumber(text:match("Дом[^%d]*(%d+)"))
+        or tonumber(text:match("дом[^%d]*(%d+)"))
+        or tonumber(text:match("№%s*(%d+)"))
         or tonumber(text:match("ID[^%d]*(%d+)"))
 end
 
@@ -798,12 +798,12 @@ finishAllHouses = function()
 
     if mode == 1 then
         if cryptoAnalysys.btc > 0 or cryptoAnalysys.asc > 0 then
-            utils.addChat("Г‡Г ГЎГ°Г Г«ГЁ: {99ff99}"..cryptoAnalysys.btc.." BTC {ffffff}| {ffa500}"..cryptoAnalysys.asc..' ASC{ffffff}.')
+            utils.addChat("Забрали: {99ff99}"..cryptoAnalysys.btc.." BTC {ffffff}| {ffa500}"..cryptoAnalysys.asc..' ASC{ffffff}.')
             cryptoAnalysys.btc = 0
             cryptoAnalysys.asc = 0
         end
     elseif mode == 3 then
-        utils.addChat("Г‚Г±ГҐ ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГ» ГўГЄГ«ГѕГ·ГҐГ­Г», ГЁГ«ГЁ Гў ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГ Гµ Г­ГҐГІ Г®ГµГ«. Г¦ГЁГ¤ГЄГ®Г±ГІГЁ.")
+        utils.addChat("Все видеокарты включены, или в видеокартах нет охл. жидкости.")
     end
 end
 
@@ -828,12 +828,12 @@ function sampev.onShowDialog(id, style, title, button1, button2, text, placehold
 
     if needReturnToMainWindow then
         local a = title:gsub("%-","")
-        if a:find("{BFBBBA}Г‘ГІГ®Г©ГЄГ  В№%d+ | ГЏГ®Г«ГЄГ  В№%d+") or a:find("{BFBBBA}Г‚Г»ГЎГҐГ°ГЁГІГҐ ГІГЁГЇ Г¦ГЁГ¤ГЄГ®Г±ГІГЁ") then
+        if a:find("{BFBBBA}Стойка №%d+ | Полка №%d+") or a:find("{BFBBBA}Выберите тип жидкости") then
             sampSendDialogResponsed(id, 0)
         end
     end
 
-    if title:find("{BFBBBA}Г‚Г»ГЎГҐГ°ГЁГІГҐ ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГі") then
+    if title:find("{BFBBBA}Выберите видеокарту") then
         needReturnToMainWindow = false
         if not cfg.on then return end
         __imDialogData.id = id
@@ -851,11 +851,11 @@ function sampev.onShowDialog(id, style, title, button1, button2, text, placehold
 
         local listboxId = -1
 
-        --ГЏГ®Г«ГЄГ  В№1 | {BEF781}ГђГ ГЎГ®ГІГ ГҐГІ	2.449996 BTC	7 ГіГ°Г®ГўГҐГ­Гј	91.37%
+        --Полка №1 | {BEF781}Работает	2.449996 BTC	7 уровень	91.37%
         for line in text:gmatch("[^\r\n]+") do
 
-            if line:find("^ГЏГ®Г«ГЄГ ") then
-                local insertText = (line:find("ГђГ ГЎГ®ГІГ ГҐГІ") and line:gsub("ГђГ ГЎГ®ГІГ ГҐГІ", "ГђГ ГЎГ®ГІГ ГҐГІ{ffffff}") or line:gsub("ГЌГ  ГЇГ ГіГ§ГҐ", "ГЌГ  ГЇГ ГіГ§ГҐ{ffffff}")):gsub("ГЏГ®Г«ГЄГ  В№%d+", "Г‚ГЁГ¤ГҐГ®ГЄГ Г°ГІГ  В№"..(#__imDialogData.videocards+1))
+            if line:find("^Полка") then
+                local insertText = (line:find("Работает") and line:gsub("Работает", "Работает{ffffff}") or line:gsub("На паузе", "На паузе{ffffff}")):gsub("Полка №%d+", "Видеокарта №"..(#__imDialogData.videocards+1))
                 local properDetect = line:match("(%d+%.%d+)%%?%s*$")
                 if properDetect and tonumber(properDetect) <= cfg.coolantPercents then
                     insertText = insertText:gsub("(%d+%.%d+)%%?%s*$", "{ff9999}%1%%")
@@ -885,7 +885,7 @@ function sampev.onShowDialog(id, style, title, button1, button2, text, placehold
         if not work.on then imgui_windows.dialog.v = false end
     end
 
-    if allHouses.active and allHouses.awaitingHouseList and not title:find("{BFBBBA}Г‚Г»ГЎГҐГ°ГЁГІГҐ ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГі") then
+    if allHouses.active and allHouses.awaitingHouseList and not title:find("{BFBBBA}Выберите видеокарту") then
         local rows = {}
         local listboxId = (style == 5) and -1 or 0
 
@@ -962,9 +962,9 @@ function sampev.onShowDialog(id, style, title, button1, button2, text, placehold
     end
 
     if work.mode == 1 then
-        if title:find('{BFBBBA}Г‚Г»ГЎГҐГ°ГЁГІГҐ ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГі') then
+        if title:find('{BFBBBA}Выберите видеокарту') then
             if not text:find('%d+%.%d%d%d%d%d%d') then
-                deactivateScript("ГЋГёГЁГЎГЄГ ! ГЉГ®Г¤ 1.")
+                deactivateScript("Ошибка! Код 1.")
                 return
             end
     
@@ -975,49 +975,49 @@ function sampev.onShowDialog(id, style, title, button1, button2, text, placehold
                     goToHouseList(id, title)
                     return
                 end
-                deactivateScript("ГЉГ°ГЁГЇГІГ®ГўГ Г«ГѕГІГ  Г­ГҐ Г­Г Г©Г¤ГҐГ­Г .")
+                deactivateScript("Криптовалюта не найдена.")
                 if cryptoAnalysys.btc > 0 or cryptoAnalysys.asc > 0 then
-                    utils.addChat("Г‡Г ГЎГ°Г Г«ГЁ: {99ff99}"..cryptoAnalysys.btc.." BTC {ffffff}| {ffa500}"..cryptoAnalysys.asc..' ASC{ffffff}.')
+                    utils.addChat("Забрали: {99ff99}"..cryptoAnalysys.btc.." BTC {ffffff}| {ffa500}"..cryptoAnalysys.asc..' ASC{ffffff}.')
                     cryptoAnalysys.btc = 0
                     cryptoAnalysys.asc = 0
                 end
             end
     
-        elseif title:gsub("%-",""):find("{BFBBBA}Г‘ГІГ®Г©ГЄГ  В№%d+ | ГЏГ®Г«ГЄГ  В№%d+") then
+        elseif title:gsub("%-",""):find("{BFBBBA}Стойка №%d+ | Полка №%d+") then
             if not findLineAndRespond('%d+%.%d%d%d%d%d%d', function(line)
                 return tonumber(line:match("(%d+)%.%d%d%d%d%d%d")) > 0
             end, 0) then
                 sampSendDialogResponsed(id, 0)
             end
-        elseif title:find('{BFBBBA}Г‚Г»ГўГ®Г¤ ГЇГ°ГЁГЎГ»Г«ГЁ ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГ»') then
+        elseif title:find('{BFBBBA}Вывод прибыли видеокарты') then
             sampSendDialogResponsed(id, 1)
         end
 
     elseif work.mode == 2 then
 
-        if title:find('{BFBBBA}Г‚Г»ГЎГҐГ°ГЁГІГҐ ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГі') then
-            if title:find('%(Г¤Г®Г¬') then 
-                deactivateScript("ГђГҐГ¦ГЁГ¬ Г®ГµГ«Г Г¦Г¤ГҐГ­ГЁГї Г°Г ГЎГ®ГІГ ГҐГІ ГІГ®Г«ГјГЄГ® Гў Г°ГіГ·Г­Г®Г¬ Г°ГҐГ¦ГЁГ¬ГҐ. ГЌГҐ Гў /flashminer. Г‘ГЄГ°ГЁГЇГІ Г¤ГҐГ ГЄГІГЁГўГЁГ°Г®ГўГ Г­.", true) 
+        if title:find('{BFBBBA}Выберите видеокарту') then
+            if title:find('%(дом') then 
+                deactivateScript("Режим охлаждения работает только в ручном режиме. Не в /flashminer. Скрипт деактивирован.", true) 
                 return 
             end            
 
             if not text:find("(%d+%.%d+)%%?%s*$") then
-                deactivateScript("ГЋГµГ«Г Г¦Г¤ГҐГ­ГЁГҐ Г­ГҐ Г­ГіГ¦Г­Г®. 1")
+                deactivateScript("Охлаждение не нужно. 1")
                 return
             end
 
             if not findLineAndRespond("(%d+%.%d+)%%?%s*$", function(line) return tonumber(line:match("(%d+%.%d+)%%?%s*$")) <= cfg.coolantPercents end, -1) then
-                deactivateScript("ГЋГµГ«Г Г¦Г¤ГҐГ­ГЁГҐ Г­ГҐ Г­ГіГ¦Г­Г®. 2")
+                deactivateScript("Охлаждение не нужно. 2")
             end
 
-        elseif title:gsub("%-",""):find("{BFBBBA}Г‘ГІГ®Г©ГЄГ  В№%d+ | ГЏГ®Г«ГЄГ  В№%d+") then
+        elseif title:gsub("%-",""):find("{BFBBBA}Стойка №%d+ | Полка №%d+") then
             if work.needSkip then
                 sampSendDialogResponsed(id, 0)
                 work.needSkip = false
                 return
             end
 
-            if not findLineAndRespond('Г‡Г Г«ГЁГІГј Г®ГµГ«Г Г¦Г¤Г ГѕГ№ГіГѕ Г¦ГЁГ¤ГЄГ®Г±ГІГј', function() return true end, 0) then
+            if not findLineAndRespond('Залить охлаждающую жидкость', function() return true end, 0) then
                 sampSendDialogResponsed(id, 0)
             else
                 work.videocardMode = ""
@@ -1028,17 +1028,17 @@ function sampev.onShowDialog(id, style, title, button1, button2, text, placehold
                 end
             end
 
-        elseif title:find('{BFBBBA}Г‚Г»ГЎГҐГ°ГЁГІГҐ ГІГЁГЇ Г¦ГЁГ¤ГЄГ®Г±ГІГЁ') then
+        elseif title:find('{BFBBBA}Выберите тип жидкости') then
             local fluidType = "None"
             if work.videocardMode == 'btc' then
-                fluidType = "Г¤Г«Гї ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГ»"
+                fluidType = "для видеокарты"
             elseif work.videocardMode == 'asc' then
-                fluidType = "ГЋГµГ«Г Г¦Г¤Г ГѕГ№Г Гї Г¦ГЁГ¤ГЄГ®Г±ГІГј Г¤Г«Гї Arizona Video Card"
+                fluidType = "Охлаждающая жидкость для Arizona Video Card"
             end
-            if not findLineAndRespond(fluidType, function(line) -- ГЋГµГ«Г Г¦Г¤Г ГѕГ№Г Гї Г¦ГЁГ¤ГЄГ®Г±ГІГј Г¤Г«Гї ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГ»	{CCCCCC}[ 15 ]
+            if not findLineAndRespond(fluidType, function(line) -- Охлаждающая жидкость для видеокарты	{CCCCCC}[ 15 ]
                 return tonumber(line:match("%[ (%d+) %]")) > 0
             end, -1) then
-                deactivateScript("Г‘ГЄГ°ГЁГЇГІ Г¤ГҐГ ГЄГІГЁГўГЁГ°Г®ГўГ Г­. ГЌГҐГІ Г®ГµГ«Г Г¦Г¤Г ГѕГ№ГҐГ© Г¦ГЁГ¤ГЄГ®Г±ГІГЁ.", false)
+                deactivateScript("Скрипт деактивирован. Нет охлаждающей жидкости.", false)
                 sampSendDialogResponsed(id, 0)
                 needReturnToMainWindow = true
             end
@@ -1047,20 +1047,20 @@ function sampev.onShowDialog(id, style, title, button1, button2, text, placehold
 
     elseif work.mode == 3 or work.mode == 4 then
 
-        if title:find('{BFBBBA}Г‚Г»ГЎГҐГ°ГЁГІГҐ ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГі') then           
+        if title:find('{BFBBBA}Выберите видеокарту') then           
 
-            if not findLineAndRespond(work.mode==3 and "{F78181}ГЌГ  ГЇГ ГіГ§ГҐ" or "{BEF781}ГђГ ГЎГ®ГІГ ГҐГІ", function(line)
+            if not findLineAndRespond(work.mode==3 and "{F78181}На паузе" or "{BEF781}Работает", function(line)
                 return tonumber(line:match("(%d+%.%d+)%%?%s*$")) > 0
             end, -1) then
                 if allHouses.active and allHouses.mode == 3 then
                     goToHouseList(id, title)
                     return
                 end
-                deactivateScript("ГђГ ГЎГ®ГІГ  Г­ГҐ ГІГ°ГҐГЎГіГҐГІГ±Гї, ГЁГ«ГЁ Гў ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГ Гµ Г­ГҐГІ Г®ГµГ«. Г¦ГЁГ¤ГЄГ®Г±ГІГЁ.")
+                deactivateScript("Работа не требуется, или в видеокартах нет охл. жидкости.")
             end
 
-        elseif title:gsub("%-",""):find("{BFBBBA}Г‘ГІГ®Г©ГЄГ  В№%d+ | ГЏГ®Г«ГЄГ  В№%d+") then
-            if not findLineAndRespond(work.mode==3 and "{BEF781}Г‡Г ГЇГіГ±ГІГЁГІГј ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГі" or "{F78181}ГЋГ±ГІГ Г­Г®ГўГЁГІГј ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГі", function() return true end, 0) then
+        elseif title:gsub("%-",""):find("{BFBBBA}Стойка №%d+ | Полка №%d+") then
+            if not findLineAndRespond(work.mode==3 and "{BEF781}Запустить видеокарту" or "{F78181}Остановить видеокарту", function() return true end, 0) then
                 sampSendDialogResponsed(id, 0)
             end
         end
@@ -1073,16 +1073,16 @@ end
 
 function sampev.onServerMessage(color, text)
     if not work.on then return end
-    if text:find("^Г‚Г» ГўГ»ГўГҐГ«ГЁ {ffffff}%d+ [BTCASC]+{ffff00}") then
+    if text:find("^Вы вывели {ffffff}%d+ [BTCASC]+{ffff00}") then
         if text:find("BTC") then
-            cryptoAnalysys.btc = cryptoAnalysys.btc + tonumber(text:match("Г‚Г» ГўГ»ГўГҐГ«ГЁ {ffffff}(%d+)"))
+            cryptoAnalysys.btc = cryptoAnalysys.btc + tonumber(text:match("Вы вывели {ffffff}(%d+)"))
         elseif text:find("ASC") then
-            cryptoAnalysys.asc = cryptoAnalysys.asc + tonumber(text:match("Г‚Г» ГўГ»ГўГҐГ«ГЁ {ffffff}(%d+)"))
+            cryptoAnalysys.asc = cryptoAnalysys.asc + tonumber(text:match("Вы вывели {ffffff}(%d+)"))
         end
         return false
-    elseif text:find("^Г‚Г Г¬ ГЎГ»Г« Г¤Г®ГЎГ ГўГ«ГҐГ­ ГЇГ°ГҐГ¤Г¬ГҐГІ") and (text:find("BTC") or text:find("ASC")) then
+    elseif text:find("^Вам был добавлен предмет") and (text:find("BTC") or text:find("ASC")) then
         return false
-    elseif text:find("^%[ГЋГёГЁГЎГЄГ %] {ffffff}Г—ГІГ®ГЎГ» Г§Г ГЇГіГ±ГІГЁГІГј ГўГЁГ¤ГҐГ®ГЄГ Г°ГІГі Гў Г°Г ГЎГ®ГІГі") then
+    elseif text:find("^%[Ошибка%] {ffffff}Чтобы запустить видеокарту в работу") then
         if allHouses.active then resetAllHouses() end
         work.on = false
         lua_thread.create(function() wait(0) __closeWindow(true) end)
